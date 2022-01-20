@@ -1,0 +1,12 @@
+- choose algorithm
+- option for unweighted and weighted
+- draw obstacle
+- node or table presentation
+- speed control
+- play, pause, next step, previous step
+- allow diagonal travel
+- maze size
+    - small : 64
+
+
+

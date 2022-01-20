@@ -1,0 +1,28 @@
+Djikstra
+- weighted
+
+Pseudo code:
+1. Let distance of start vertex from start vertex = 0
+2. Let distance of other vertices from start = infinity
+Repeat
+    3. Visit the unvisited vertext with the smallest known distance from the start vertex.
+    4. For the current vertex, examine its unvisited neighbors.
+    5. For the current vertex, calculate distance of each neighbour from start vertex.
+    6. If the calculated distance of a vertex is less than the known distance, update the shortest distance
+    7. Update the previous vertex to the list of visited vertices
+    8. Add the current vertex to the list of visited vertices
+Until all vertices visited
+
+LET distance of start vertex from start vertex = 0
+LET distance of all other vertices from start to infinity
+WHILE vertices remain unvisited 
+    Visit unvisited vertex with smallest known distance from start vertext (call this current vertext)
+    FOR EACH unvisited neighbor of the current vertex
+        Calculate the distance from start vertex
+        IF the calculated distance of this vertex is less than the known distance
+            Update shortest distance to this vertex
+            Update the previous vertext with the current vertex
+        END IF
+    NEXT unvisited neighbor
+    ADD the current vertex o the list of visited vertices
+END WHILE

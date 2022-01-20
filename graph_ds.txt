@@ -1,0 +1,6 @@
+Graphs
+- directed and undirected
+- representations
+    - adjacency list or array,
+    - adjacency matrix (2-dimensional array with values representing the edges. Rows amd cols represent nodes)
+    - incidence matrix (2-dimensional, rows represent nodes, cols represent edges. Values inside the matrix represent the connection 1 or 0/ T or F. directed and undirected. use -1 for directed Graphs)

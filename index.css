@@ -1,0 +1,72 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    width: 90vw;
+    margin: 0 auto;
+}
+
+.maze{
+    border: 1px solid gray;
+    width: 100%;
+    height: 60vh;
+    /* display: block; */
+    /* flex-flow: row; */
+    /* display: -ms-inline-grid;
+    display: -moz-inline-grid; */
+    line-height: 0;
+    user-select: none;
+    justify-items: center;
+}
+
+.node{
+    border: 1px solid lightblue;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    padding: 0;
+}
+@keyframes popup {
+    from {
+      transform: scale(0);
+    }
+  
+    to {
+      transform: scale(100%);
+    }
+  }
+.start{
+    border: 1px solid green;
+    background-color: green;
+}
+.end{
+    border: 1px solid red;
+    background-color: red;
+}
+.wall{
+    border: 1px solid black;
+    background-color: black;
+}
+.visited{
+    border: 1px solid blue;
+    background-color: blue;
+}
+.unvisited{
+    border: 1px solid lightblue;
+    background-color: white;
+}
+.path{
+    border: 1px solid yellow;
+    background-color: yellow;
+}
+.popup{
+    animation-name: popup;
+    animation-duration: 500ms;
+}
+
+.control-button{
+    padding: 5px;
+    width: 70px;
+}

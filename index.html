@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Finding</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Path Finding</h1>
+        <div>
+            <div>
+                <label for="txtRow">Row:</label>
+                <input type="text" name="txtRow" id="txtRow" value=5>
+                <br>
+                <label for="txtCol">Column:</label>
+                <input type="text" name="txtCol" id="txtCol" value=5>
+                <br>
+
+                <button onclick="generateMaze()">Generate</button>
+            </div>
+        </div>
+        <div class="maze">
+            <!-- <div class="node"></div> -->
+        </div>
+        <div style="display: flex; width: 50%; justify-content: space-around;">
+            <div>
+                <input type="radio" name="nodeType" id="radNone" checked>
+                <label for="radNone">NONE</label>
+            </div>
+            <div>
+                <input type="radio" name="nodeType" id="radStart">
+                <label for="radStart">START</label>
+            </div>
+            <div>
+                <input type="radio" name="nodeType" id="radEnd">
+                <label for="radEnd">END</label>
+            </div>
+            <div>
+                <input type="radio" name="nodeType" id="radWall">
+                <label for="radWall">WALL</label>
+            </div>
+
+        </div>
+        <div>
+            <button class="control-button" onclick="play()">PLAY</button>
+            <button class="control-button" onclick="pause()">PAUSE</button>
+        </div>
+    </div>
+    <script src="js/maze.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/algorithms/dijkstra.js"></script>
+</body>
+</html>
