@@ -13,13 +13,12 @@
         <div>
             <div>
                 <label for="txtRow">Row:</label>
-                <input type="text" name="txtRow" id="txtRow" value=5>
-                <br>
+                <input type="text" name="txtRow" id="txtRow" value=25>
                 <label for="txtCol">Column:</label>
-                <input type="text" name="txtCol" id="txtCol" value=5>
+                <input type="text" name="txtCol" id="txtCol" value=25>
                 <br>
 
-                <button onclick="generateMaze()">Generate</button>
+                <button onclick="generateMaze()" class="generate-btn">Generate</button>
             </div>
         </div>
         <div class="maze">
@@ -28,7 +27,7 @@
         <div style="display: flex; width: 50%; justify-content: space-around;">
             <div>
                 <input type="radio" name="nodeType" id="radNone" checked>
-                <label for="radNone">NONE</label>
+                <label for="radNone">CLEAR</label>
             </div>
             <div>
                 <input type="radio" name="nodeType" id="radStart">
@@ -47,6 +46,7 @@
         <div>
             <button class="control-button" onclick="play()">PLAY</button>
             <button class="control-button" onclick="pause()">PAUSE</button>
+            <button class="control-button" onclick="next()">NEXT</button>
         </div>
     </div>
     <script src="js/maze.js"></script>

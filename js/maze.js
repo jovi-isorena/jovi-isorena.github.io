@@ -18,14 +18,18 @@ class Node{
     }
 
 }
+
 let graph;
 let nodes = [];
+let startNode;
+let endNode;
 let startXCoor;
 let startYCoor;
 let endXCoor;
 let endYCoor;
 let isMouseDown = false;
-let activePlayId = null;
+let activePlayId = 69;
+let algorithm; // holds the algorithm and iterations
 const maze = document.querySelector('.maze');
 window.onload = () => {
     generateMaze();
@@ -38,6 +42,22 @@ function mouseDown(){
 }
 window.addEventListener('mousedown', mouseDown);
 window.addEventListener('mouseup', mouseUp);
+window.addEventListener('keypress', (e)=>{
+    console.log(e);
+    if(e.code === 'KeyS'){
+        document.getElementById('radStart').setAttribute('checked', true);
+    }
+    else if(e.code === 'KeyE'){
+        document.getElementById('radEnd').setAttribute('checked', true);
+    }
+    else if(e.code === 'KeyW'){
+        document.getElementById('radWall').setAttribute('checked', true);
+    }
+    else if(e.code === 'KeyC'){
+        document.getElementById('radNone').setAttribute('checked', true);
+    }
+
+});
 
 //function to initialize maze and nodes
 function generateMaze(){
@@ -81,6 +101,7 @@ function drawNode(node){
     
     newElement.setAttribute('onclick', `changeNode(this,${node.row}, ${node.col})`);
     newElement.setAttribute('onmouseenter', `changeNodeOnHover(this,${node.row}, ${node.col})`);
+    newElement.setAttribute('id', node.id);
     // newElement.setAttribute('onmouseup', 'mouseUp');
     // newElement.addEventListener('mouseenter', changeNodeOnHover(node.row, node.col))
     return newElement;
@@ -108,6 +129,7 @@ function changeNode(node,row,col){
         startXCoor = col; 
         swapNodeClass(node, nodes[row][col].value, NodeValue.START);
         nodes[row][col].value = NodeValue.START;
+        startNode = node.getAttribute('id');
         // node.classList.add('start');
 
     }else if(isEnd){
@@ -121,15 +143,18 @@ function changeNode(node,row,col){
         endXCoor = col;
         swapNodeClass(node, nodes[row][col].value, NodeValue.END);
         nodes[row][col].value = NodeValue.END;
+        endNode = node.getAttribute('id');
     }else if(isWall){
         //check if clicked node is start or end node
         if(startYCoor == row && startXCoor == col){
             startYCoor = null;
             startXCoor = null;
+            startNode = null;
         }
         if(endYCoor == row && endXCoor == col){
             endYCoor = null;
             endXCoor = null;
+            endNode = null;
         }
         swapNodeClass(node, nodes[row][col].value, NodeValue.WALL);
         nodes[row][col].value = NodeValue.WALL;
@@ -137,10 +162,12 @@ function changeNode(node,row,col){
         if(startYCoor == row && startXCoor == col){
             startYCoor = null;
             startXCoor = null;
+            startNode = null;
         }
         if(endYCoor == row && endXCoor == col){
             endYCoor = null;
             endXCoor = null;
+            endNode = null;
         }
         swapNodeClass(node, nodes[row][col].value, NodeValue.UNVISITED);
         nodes[row][col].value = 'unvisited';
@@ -148,8 +175,8 @@ function changeNode(node,row,col){
     setTimeout(clearPop, 500, node)
     // drawMaze(maze,nodes);
 }
+//used for animation. removing popup class to avoid redrawing of popup effect
 function clearPop(node){
-    // nodes
     node.classList.remove('popup');
 }
 function swapNodeClass(node, current, newClass){
@@ -226,11 +253,21 @@ function play(){
     graph = new Graph(nodes);
     console.log(graph);
     console.table(graph.edges);
-    let dijkstra = new Dijkstra(nodes, graph);
-    dijkstra.initiate();
-    // activePlayId = setInterval(loop, 300);
+    algorithm = new Dijkstra(nodes, graph, startNode, endNode);
+    algorithm.initiate();
+    // setTimeout(1000);
+    activePlayId = setInterval(next,10);
+    console.log(activePlayId)
+    
 }
 
+// function play(){
+//     activePlayId = algorithm.play();
+
+// }
+function next(){
+    algorithm.next();
+}
 
 
 function pause(){
@@ -238,6 +275,6 @@ function pause(){
 }
 
 function loop(){
-    console.log('looping');
+    // console.log('looping');
     drawMaze(maze, nodes);
 }

@@ -1,5 +1,6 @@
 Djikstra
 - weighted
+- undirected
 
 Pseudo code:
 1. Let distance of start vertex from start vertex = 0
