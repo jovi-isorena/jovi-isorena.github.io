@@ -13,12 +13,13 @@
         <div>
             <div>
                 <label for="txtRow">Row:</label>
-                <input type="text" name="txtRow" id="txtRow" value=25>
+                <input type="text" name="txtRow" id="txtRow" value=35>
                 <label for="txtCol">Column:</label>
-                <input type="text" name="txtCol" id="txtCol" value=25>
+                <input type="text" name="txtCol" id="txtCol" value=81>
                 <br>
 
-                <button onclick="generateMaze()" class="generate-btn">Generate</button>
+                <button onclick="generateBlankMaze()" class="generate-btn">Generate Blank Maze</button>
+                <button onclick="generateMaze()" class="generate-btn">Generate Maze</button>
             </div>
         </div>
         <div class="maze">
@@ -52,5 +53,6 @@
     <script src="js/maze.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/algorithms/dijkstra.js"></script>
+    <script src="js/algorithms/recursive_backtracking.js"></script>
 </body>
 </html>

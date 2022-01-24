@@ -29,10 +29,16 @@ let endXCoor;
 let endYCoor;
 let isMouseDown = false;
 let activePlayId = 69;
+let recursive;
+let path = [];
+//
+let toVisit = [];
+let visited = [];
+//
 let algorithm; // holds the algorithm and iterations
 const maze = document.querySelector('.maze');
 window.onload = () => {
-    generateMaze();
+    // generateMaze();
 }
 function mouseUp(){
     isMouseDown = false;
@@ -60,9 +66,9 @@ window.addEventListener('keypress', (e)=>{
 });
 
 //function to initialize maze and nodes
-function generateMaze(){
+function generateBlankMaze(){
     nodes = [];
-    console.log('Generating maze...')
+    console.log('Generating blank maze...')
     let rowCount = document.getElementById("txtRow").value;
     let colCount = document.getElementById("txtCol").value;
     // let rowCount = 2; //25
@@ -82,6 +88,75 @@ function generateMaze(){
     console.log('Maze done!');
 }
 
+function generateMaze(){
+    nodes = [];
+    console.log('Generating maze...')
+    let rowCount = parseInt(document.getElementById("txtRow").value);
+    let colCount = parseInt(document.getElementById("txtCol").value);
+    let id = 0;
+    //initialize nodes and push them to nodes array
+    for(let i = 0 ; i < rowCount ; i++){
+        let nodeRow = [];
+        for(let j = 0; j < colCount ; j++){
+            nodeRow.push(new Node(i,j,NodeValue.UNVISITED, id));
+            id++;
+        }
+        nodes.push(nodeRow);
+    }
+    recursive = new RecursiveBacktracking(nodes);
+    let adjacencyList = recursive.createMaze();
+    // console.log("Generated Adjacency List:");
+    // console.table(adjacencyList);
+    // console.log(nodes)
+    
+    drawMaze(maze,nodes);
+    id = 0;
+    for(let i = 0 ; i < rowCount ; i++){
+        for(let j = 0; j < colCount ; j++){
+            swapNodeClass(document.getElementById(`${id}`), NodeValue.UNVISITED, NodeValue.WALL);
+            nodes[i][j].value = NodeValue.WALL;
+            id++;
+        }
+    }
+    // let toVisit = [];
+    // let visited = [];
+    // let visiting;
+    toVisit.push(0);
+    
+    activePlayId = setInterval(caveIn, 20, adjacencyList, colCount);
+
+    // while(toVisit.length > 0){
+    //     visiting = toVisit.pop();
+    //     visited.push(visiting);
+    //     // console.log('Visiting: ' + visiting);
+    //     toVisit.push(...(adjacencyList[visiting]).filter(edge => visited.indexOf(edge) === -1));
+    //     // console.log('Update toVisit list: ');
+    //     // console.log(toVisit);
+    //     swapNodeClass(document.getElementById(visiting), NodeValue.WALL, NodeValue.UNVISITED);
+    //     let r = Math.floor(visiting / rowCount); 
+    //     let c = visiting % rowCount;
+    //     nodes[r][c].value = NodeValue.UNVISITED;
+    // }
+    
+}
+
+
+function caveIn(adjacencyList, colCount){
+    if(toVisit.length === 0){
+        pause();
+    }
+    let visiting = toVisit.pop();
+    visited.push(visiting);
+    toVisit.push(...(adjacencyList[visiting]).filter(edge => visited.indexOf(edge) === -1));
+    swapNodeClass(document.getElementById(visiting), NodeValue.WALL, NodeValue.UNVISITED);
+    let r = Math.floor(visiting / colCount); 
+    let c = visiting % colCount;
+    console.log(r,c);
+    console.log(nodes);
+    nodes[r][c].value = NodeValue.UNVISITED;
+    setTimeout(clearPop, 500, document.getElementById(`${visiting}`));
+
+}
 //function to draw the maze based from nodes array
 function drawMaze(mazeContainer, nodes){
     //reset maze
@@ -172,7 +247,7 @@ function changeNode(node,row,col){
         swapNodeClass(node, nodes[row][col].value, NodeValue.UNVISITED);
         nodes[row][col].value = 'unvisited';
     }
-    setTimeout(clearPop, 500, node)
+    setTimeout(clearPop, 500, node);
     // drawMaze(maze,nodes);
 }
 //used for animation. removing popup class to avoid redrawing of popup effect
@@ -182,6 +257,8 @@ function clearPop(node){
 function swapNodeClass(node, current, newClass){
     node.classList.remove(current);
     node.classList.add(newClass);
+    node.classList.remove('popup');
+    node.classList.add('popup');
 }
 //function for editing maze on hold mouse event
 function changeNodeOnHover(node, row, col){
@@ -277,4 +354,14 @@ function pause(){
 function loop(){
     // console.log('looping');
     drawMaze(maze, nodes);
+}
+
+function displayPath(){
+    if(path.length == 0){
+        pause();
+        return;
+    }
+    let currentPathNode = path.pop();
+    // console.log(`Current Path node: ${currentPathNode.id}`)
+    swapNodeClass(document.getElementById(`${currentPathNode.id}`), NodeValue.VISITED, NodeValue.PATH);
 }

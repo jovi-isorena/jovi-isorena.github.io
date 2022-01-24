@@ -53,7 +53,6 @@ class Graph{
 
     generateAdjacencyList(row, col){
         console.log('Generating list...')
-        console.log(this.nodes);
         let maxEdges = row * col;
         let ret = [];
         
@@ -96,6 +95,7 @@ class Graph{
                     // ret[j][i] = 1;
                     adjacentList.push(j);
                 }
+                
                 else{
                     // ret[i][j] = 0;
                     // ret[j][i] = 0;
@@ -108,4 +108,11 @@ class Graph{
         }
         return ret;
     }
+
+
+    // generatePotentialEdges(){
+    //     let row = this.row;
+    //     let col = this.col;
+
+    // }
 }

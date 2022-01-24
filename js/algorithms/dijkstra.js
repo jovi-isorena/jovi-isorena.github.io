@@ -6,6 +6,7 @@ class Dijkstra{
         }
         this.graph = graph;
         this.startNode = startNode;
+        // this.currentPathNodeId;
         this.endNode = endNode;
         this.vertices = [];
         this.intervalID;
@@ -42,9 +43,13 @@ class Dijkstra{
             // console.table(this.vertices);
     }
 
-    iterate(intervalId){
+    iterate(){
         //go to unvisited with the least distance
-        let unvisitedVertices = this.vertices.filter(vertex => vertex.visited === false);
+        let unvisitedVertices = this.vertices.filter(vertex => vertex.visited === false && vertex.distance !== Infinity);
+        if(unvisitedVertices.length == 0){
+            pause();
+            alert('There is no path');
+        }
         let currentVertex = unvisitedVertices.sort((a, b) => a.distance - b.distance)[0];
         // console.log(`current vertex: `);
         // console.log(currentVertex);
@@ -61,14 +66,22 @@ class Dijkstra{
             
         });
         currentVertex.visited = true;
-        document.getElementById(`${currentVertex.id}`).classList.add('visited');
-        document.getElementById(`${currentVertex.id}`).classList.remove('unvisited');
+        swapNodeClass(document.getElementById(`${currentVertex.id}`), NodeValue.UNVISITED, NodeValue.VISITED)
+        // document.getElementById(`${currentVertex.id}`).classList.add('visited');
+        // document.getElementById(`${currentVertex.id}`).classList.remove('unvisited');
 
         // console.table(this.vertices);
         if(this.endNode.visited === true){
             // clearInterval(intervalId);
             pause();
-            this.displayPath();
+            this.setPath();
+            console.log(`Path:`);
+            console.log(path);
+            activePlayId = setInterval(displayPath, 20);
+            // this.currentPathNodeId = this.endNode.id;
+            // console.log(this.endNode.id,this.currentPathNodeId );
+            // activePlayId = setInterval(this.displayPath, 100, this.currentPathNodeId, this.vertices, this.startNode.id);
+        
             // alert('End is found');
         }
     }
@@ -84,12 +97,21 @@ class Dijkstra{
         this.iterate();
     }
 
-    displayPath(){
+    setPath(){
         let currentVertex = this.endNode;
         while(currentVertex !== this.startNode){
-            document.getElementById(`${currentVertex.id}`).classList.add('path');
+            // document.getElementById(`${currentVertex.id}`).classList.add('path');
             currentVertex = this.vertices.find(vertex => vertex.id === currentVertex.previousNode);
-            setTimeout(100); 
+            // setTimeout(swapNodeClass, 1000,  document.getElementById(`${currentVertex.id}`), NodeValue.VISITED, NodeValue.PATH); 
+            path.push(currentVertex);
+            
         }
+        // console.log(currentPathNodeId);
+        // swapNodeClass(document.getElementById(`${currentPathNodeId}`), NodeValue.VISITED, NodeValue.PATH);
+        // currentPathNodeId = vertices.find(vertex => vertex.id === currentPathNodeId).id;
+        // if(currentPathNodeId === startNodeId){
+        //     pause();    
+        // }
     }
+    
 }
