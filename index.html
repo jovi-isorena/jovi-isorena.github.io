@@ -13,9 +13,10 @@
         <div>
             <div>
                 <label for="txtRow">Row:</label>
-                <input type="text" name="txtRow" id="txtRow" value=35>
+                <input type="text" name="txtRow" id="txtRow" value=5>
                 <label for="txtCol">Column:</label>
-                <input type="text" name="txtCol" id="txtCol" value=81>
+                <input type="text" name="txtCol" id="txtCol" value=5>
+                
                 <br>
 
                 <button onclick="generateBlankMaze()" class="generate-btn">Generate Blank Maze</button>
@@ -24,6 +25,13 @@
         </div>
         <div class="maze">
             <!-- <div class="node"></div> -->
+        </div>
+        <div>
+            <label for="algoritmMenu">Path Finding Algorithm:</label>
+            <select name="algorithmMenu" id="algorithmMenu">
+                <option value="1">Dijkstra's Shortest Path</option>
+                <option value="2">Depth First Search</option>
+            </select>
         </div>
         <div style="display: flex; width: 50%; justify-content: space-around;">
             <div>
@@ -53,6 +61,7 @@
     <script src="js/maze.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/algorithms/dijkstra.js"></script>
+    <script src="js/algorithms/dfs.js"></script>
     <script src="js/algorithms/recursive_backtracking.js"></script>
 </body>
 </html>

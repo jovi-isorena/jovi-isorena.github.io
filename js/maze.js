@@ -1,5 +1,9 @@
 // import Graph from "./graph";
 // const Graph = require('./graph') 
+const Algorithm = {
+    DIJKSTRA: 1,
+    DFS: 2
+}
 const NodeValue = {
     START: 'start',
     END: 'end',
@@ -90,6 +94,7 @@ function generateBlankMaze(){
 
 function generateMaze(){
     nodes = [];
+    maze.innerHTML = '';
     console.log('Generating maze...')
     let rowCount = parseInt(document.getElementById("txtRow").value);
     let colCount = parseInt(document.getElementById("txtCol").value);
@@ -151,8 +156,6 @@ function caveIn(adjacencyList, colCount){
     swapNodeClass(document.getElementById(visiting), NodeValue.WALL, NodeValue.UNVISITED);
     let r = Math.floor(visiting / colCount); 
     let c = visiting % colCount;
-    console.log(r,c);
-    console.log(nodes);
     nodes[r][c].value = NodeValue.UNVISITED;
     setTimeout(clearPop, 500, document.getElementById(`${visiting}`));
 
@@ -175,7 +178,7 @@ function drawNode(node){
     newElement.className = `node ${node.value}`;
     
     newElement.setAttribute('onclick', `changeNode(this,${node.row}, ${node.col})`);
-    newElement.setAttribute('onmouseenter', `changeNodeOnHover(this,${node.row}, ${node.col})`);
+    newElement.setAttribute('onmouseover', `changeNodeOnHover(this,${node.row}, ${node.col})`);
     newElement.setAttribute('id', node.id);
     // newElement.setAttribute('onmouseup', 'mouseUp');
     // newElement.addEventListener('mouseenter', changeNodeOnHover(node.row, node.col))
@@ -328,13 +331,22 @@ function changeNodeOnHover(node, row, col){
 function play(){
     
     graph = new Graph(nodes);
-    console.log(graph);
-    console.table(graph.edges);
-    algorithm = new Dijkstra(nodes, graph, startNode, endNode);
+    // console.log(graph);
+    // console.table(graph.edges);
+    // algorithm = new Dijkstra(nodes, graph, startNode, endNode);
+    switch (parseInt(document.querySelector('#algorithmMenu').value)) {
+        case Algorithm.DIJKSTRA:
+            algorithm = new Dijkstra(nodes, graph, startNode, endNode);
+            break;
+        case Algorithm.DFS:
+            algorithm = new DFS(nodes, graph, startNode, endNode);
+            break;
+        
+    }
     algorithm.initiate();
     // setTimeout(1000);
     activePlayId = setInterval(next,10);
-    console.log(activePlayId)
+    // console.log(activePlayId)
     
 }
 
@@ -362,6 +374,5 @@ function displayPath(){
         return;
     }
     let currentPathNode = path.pop();
-    // console.log(`Current Path node: ${currentPathNode.id}`)
-    swapNodeClass(document.getElementById(`${currentPathNode.id}`), NodeValue.VISITED, NodeValue.PATH);
+    swapNodeClass(document.getElementById(`${currentPathNode}`), NodeValue.VISITED, NodeValue.PATH);
 }

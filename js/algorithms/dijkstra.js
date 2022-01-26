@@ -103,7 +103,7 @@ class Dijkstra{
             // document.getElementById(`${currentVertex.id}`).classList.add('path');
             currentVertex = this.vertices.find(vertex => vertex.id === currentVertex.previousNode);
             // setTimeout(swapNodeClass, 1000,  document.getElementById(`${currentVertex.id}`), NodeValue.VISITED, NodeValue.PATH); 
-            path.push(currentVertex);
+            path.push(currentVertex.id);
             
         }
         // console.log(currentPathNodeId);
