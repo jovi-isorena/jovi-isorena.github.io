@@ -2,7 +2,8 @@
 // const Graph = require('./graph') 
 const Algorithm = {
     DIJKSTRA: 1,
-    DFS: 2
+    DFS: 2,
+    ASTAR: 3
 }
 const NodeValue = {
     START: 'start',
@@ -53,7 +54,6 @@ function mouseDown(){
 window.addEventListener('mousedown', mouseDown);
 window.addEventListener('mouseup', mouseUp);
 window.addEventListener('keypress', (e)=>{
-    console.log(e);
     if(e.code === 'KeyS'){
         document.getElementById('radStart').setAttribute('checked', true);
     }
@@ -340,6 +340,9 @@ function play(){
             break;
         case Algorithm.DFS:
             algorithm = new DFS(nodes, graph, startNode, endNode);
+            break;
+        case Algorithm.ASTAR:
+            algorithm = new AStar(nodes, graph, startNode, endNode);
             break;
         
     }
