@@ -460,11 +460,11 @@ function resetMaze(){
 
 function showControls(){
     // document.querySelector('.mazeControl').style.height = '100%'
-    document.querySelector('.mazeControl').style.display = 'block'
+    // document.querySelector('.mazeControl').style.display = 'block'
         
 }
 function hideControls(){
     // document.querySelector('.mazeControl').style.height = '0'
-    document.querySelector('.mazeControl').style.display = 'none'
+    // document.querySelector('.mazeControl').style.display = 'none'
     
 }
