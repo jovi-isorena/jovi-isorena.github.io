@@ -49,8 +49,10 @@ class DFS{
     iterate(){
         if(this.currentId == this.endNode){
             // this.path.push(this.currentId);
-            pause();
-            activePlayId = setInterval(displayPath, 20);
+            // pause();
+            endFound = true;
+            // activePlayId = setInterval(displayPath, playSpeed);
+            displayPath();
         }
         if(path.indexOf(this.currentId) === -1){
             path.push(this.currentId);

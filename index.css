@@ -12,6 +12,8 @@
     border: 1px solid gray;
     width:fit-content;
     height: auto;
+    margin: auto;
+    margin-bottom: 50px;
     /* display: block; */
     /* flex-flow: row; */
     /* display: -ms-inline-grid;
@@ -19,7 +21,7 @@
     line-height: 0;
     user-select: none;
     justify-items: center;
-    margin: 20px 0;
+    /* margin: 20px 0; */
     transition-duration: 100ms;
 }
 
@@ -79,4 +81,29 @@
     background-color: lightslategray;
     color: white;
     border-radius: 5px;
+}
+
+.mazeControl{
+    transition: all 500ms;
+    display: flex; 
+    /* width: 50%;  */
+    justify-content: space-between;
+    /* height: 0; */
+    overflow: hidden;
+    /* border: 1px solid blue; */
+    text-align: center;
+    background-color: lightseagreen;
+    color: white;
+    padding: 20px 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.mazeControl select{
+    background-color: lightseagreen;
+    color: white;
+    border: 0;
+}
+.mazeControl select option:focus{
+    background-color: lightyellow;
 }

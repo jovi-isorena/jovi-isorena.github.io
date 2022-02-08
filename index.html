@@ -21,42 +21,44 @@
 
                 <button onclick="generateBlankMaze()" class="generate-btn">Generate Blank Maze</button>
                 <button onclick="generateMaze()" class="generate-btn">Generate Maze</button>
+                <button onclick="resetAll()" class="generate-btn">Reset All</button>
+                <button onclick="resetMaze()" class="generate-btn">Reset Maze</button>
             </div>
         </div>
-        <div class="maze">
-            <!-- <div class="node"></div> -->
-        </div>
-        <div>
-            <label for="algoritmMenu">Path Finding Algorithm:</label>
-            <select name="algorithmMenu" id="algorithmMenu">
-                <option value="3">A* Path</option>
-                <option value="1">Dijkstra's Shortest Path</option>
-                <option value="2">Depth First Search</option>
-            </select>
-        </div>
-        <div style="display: flex; width: 50%; justify-content: space-around;">
+        
+        <div class="mazeControl">
+            <div>
+                <label for="algoritmMenu">Path Finding Algorithm:</label>
+                <select name="algorithmMenu" id="algorithmMenu">
+                    <option value="3">A* Path</option>
+                    <option value="1">Dijkstra's Shortest Path</option>
+                    <option value="2">Depth First Search</option>
+                </select>
+            </div>
             <div>
                 <input type="radio" name="nodeType" id="radNone" checked>
                 <label for="radNone">CLEAR</label>
-            </div>
-            <div>
+            
                 <input type="radio" name="nodeType" id="radStart">
                 <label for="radStart">START</label>
-            </div>
-            <div>
+            
                 <input type="radio" name="nodeType" id="radEnd">
                 <label for="radEnd">END</label>
-            </div>
-            <div>
+            
                 <input type="radio" name="nodeType" id="radWall">
                 <label for="radWall">WALL</label>
             </div>
-
+            <div class="controls">
+                <button class="control-button" onclick="play()">PLAY</button>
+                <button class="control-button" onclick="pause()">PAUSE</button>
+                <button class="control-button" onclick="next()">NEXT</button>
+                <label for="playSpeed">Play Speed:</label>
+                <input type="range" name="playSpeed" id="playSpeed" min="1" max="100" value="100">
+            </div>
+            
         </div>
-        <div>
-            <button class="control-button" onclick="play()">PLAY</button>
-            <button class="control-button" onclick="pause()">PAUSE</button>
-            <button class="control-button" onclick="next()">NEXT</button>
+        <div class="maze">
+            
         </div>
     </div>
     <script src="js/maze.js"></script>

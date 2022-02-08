@@ -73,11 +73,13 @@ class Dijkstra{
         // console.table(this.vertices);
         if(this.endNode.visited === true){
             // clearInterval(intervalId);
-            pause();
+            // pause();
+            endFound = true;
             this.setPath();
             console.log(`Path:`);
             console.log(path);
-            activePlayId = setInterval(displayPath, 20);
+            // activePlayId = setInterval(displayPath, playSpeed);
+            displayPath();
             // this.currentPathNodeId = this.endNode.id;
             // console.log(this.endNode.id,this.currentPathNodeId );
             // activePlayId = setInterval(this.displayPath, 100, this.currentPathNodeId, this.vertices, this.startNode.id);
@@ -86,11 +88,11 @@ class Dijkstra{
         }
     }
 
-    play(){
-        this.intervalID = setInterval(this.iterate, 100);
+    // play(){
+    //     this.intervalID = setInterval(this.iterate, playSpeed );
 
-        return this.intervalID;
-    }
+    //     return this.intervalID;
+    // }
 
     next(){
         // console.log('endnode:' + this.endNode);

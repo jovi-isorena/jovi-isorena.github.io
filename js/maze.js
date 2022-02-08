@@ -34,14 +34,24 @@ let endXCoor;
 let endYCoor;
 let isMouseDown = false;
 let activePlayId = 69;
+let endFound = false;
+let endPathFound = false;
 let recursive;
 let path = [];
 //
 let toVisit = [];
 let visited = [];
+let playSpeed;
 //
 let algorithm; // holds the algorithm and iterations
 const maze = document.querySelector('.maze');
+const speedRange = document.querySelector('#playSpeed');
+
+speedRange.addEventListener('change', (e) => {
+    playSpeed = 10 / (e.target.value/100)
+    console.log(e.target.value, playSpeed);
+
+})
 window.onload = () => {
     // generateMaze();
 }
@@ -71,6 +81,8 @@ window.addEventListener('keypress', (e)=>{
 
 //function to initialize maze and nodes
 function generateBlankMaze(){
+    resetAll();
+    showControls();
     nodes = [];
     console.log('Generating blank maze...')
     let rowCount = document.getElementById("txtRow").value;
@@ -93,6 +105,8 @@ function generateBlankMaze(){
 }
 
 function generateMaze(){
+    resetAll();
+    showControls();
     nodes = [];
     maze.innerHTML = '';
     console.log('Generating maze...')
@@ -128,8 +142,8 @@ function generateMaze(){
     // let visiting;
     toVisit.push(0);
     
-    activePlayId = setInterval(caveIn, 20, adjacencyList, colCount);
-
+    // activePlayId = setInterval(caveIn, 20, adjacencyList, colCount);
+    caveIn(adjacencyList, colCount);
     // while(toVisit.length > 0){
     //     visiting = toVisit.pop();
     //     visited.push(visiting);
@@ -158,6 +172,7 @@ function caveIn(adjacencyList, colCount){
     let c = visiting % colCount;
     nodes[r][c].value = NodeValue.UNVISITED;
     setTimeout(clearPop, 500, document.getElementById(`${visiting}`));
+    setTimeout(caveIn, playSpeed, adjacencyList, colCount);
 
 }
 //function to draw the maze based from nodes array
@@ -175,7 +190,7 @@ function drawMaze(mazeContainer, nodes){
 //function to draw each node
 function drawNode(node){
     let newElement = document.createElement('span');
-    newElement.className = `node ${node.value}`;
+    newElement.className = `node ${node.value} popup`;
     
     newElement.setAttribute('onclick', `changeNode(this,${node.row}, ${node.col})`);
     newElement.setAttribute('onmouseover', `changeNodeOnHover(this,${node.row}, ${node.col})`);
@@ -348,7 +363,8 @@ function play(){
     }
     algorithm.initiate();
     // setTimeout(1000);
-    activePlayId = setInterval(next,10);
+    // activePlayId = setInterval(next,playSpeed);
+    next();
     // console.log(activePlayId)
     
 }
@@ -358,7 +374,10 @@ function play(){
 
 // }
 function next(){
-    algorithm.next();
+    if(!endFound){
+        algorithm.next();
+        latestTimeoutForVisiting = setTimeout(next, playSpeed);
+    }
 }
 
 
@@ -373,9 +392,79 @@ function loop(){
 
 function displayPath(){
     if(path.length == 0){
-        pause();
+        // pause();
+        // clearTimeout(latestTimeoutForPath);
         return;
     }
     let currentPathNode = path.pop();
     swapNodeClass(document.getElementById(`${currentPathNode}`), NodeValue.VISITED, NodeValue.PATH);
+    setTimeout(clearPop, 500, document.getElementById(`${currentPathNode}`));
+    setTimeout(displayPath, playSpeed);
+
+}
+
+function resetAll(){
+    hideControls();
+    graph = null;
+    nodes = [];
+    if(startNode !== null){
+        startNode = null;
+        startXCoor = null;
+        startYCoor = null;
+    }
+    if(endNode !== null){
+        endNode = null;
+        endXCoor = null;
+        endYCoor  = null;
+    }
+    if(activePlayId !== null){
+        clearInterval(activePlayId);
+        activePlayId = null;
+    }
+    recursive = null;
+    path = [];
+    toVisit = [];
+    visited = [];
+    endFound = false;
+    endPathFound = false;
+    maze.innerHTML = ''
+}
+
+function resetMaze(){
+    
+    if(startNode !== null){
+        document.getElementById(startNode).classList.remove(NodeValue.START);
+        startNode = null;
+        startXCoor = null;
+        startYCoor = null;
+    }
+    if(endNode !== null){
+        document.getElementById(endNode).classList.remove(NodeValue.END);
+        endNode = null;
+        endXCoor = null;
+        endYCoor  = null;
+    }
+    document.querySelectorAll(`.${NodeValue.PATH}`).forEach( pathNode => pathNode.classList.remove(NodeValue.PATH))
+    document.querySelectorAll(`.${NodeValue.VISITED}`).forEach( pathNode => pathNode.classList.remove(NodeValue.VISITED))
+    if(activePlayId !== null){
+        clearInterval(activePlayId);
+        activePlayId = null;
+    }
+    endFound = false;
+    endPathFound = false;
+    // recursive = null;
+    path = [];
+
+    
+}
+
+function showControls(){
+    // document.querySelector('.mazeControl').style.height = '100%'
+    document.querySelector('.mazeControl').style.display = 'block'
+        
+}
+function hideControls(){
+    // document.querySelector('.mazeControl').style.height = '0'
+    document.querySelector('.mazeControl').style.display = 'none'
+    
 }
