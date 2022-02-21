@@ -42,6 +42,7 @@ let path = [];
 let toVisit = [];
 let visited = [];
 let playSpeed;
+let playing = false;
 //
 let algorithm; // holds the algorithm and iterations
 const maze = document.querySelector('.maze');
@@ -53,7 +54,7 @@ speedRange.addEventListener('change', (e) => {
 
 })
 window.onload = () => {
-    // generateMaze();
+    generateBlankMaze();
 }
 function mouseUp(){
     isMouseDown = false;
@@ -129,21 +130,22 @@ function generateMaze(){
     // console.log(nodes)
     
     drawMaze(maze,nodes);
-    id = 0;
-    for(let i = 0 ; i < rowCount ; i++){
-        for(let j = 0; j < colCount ; j++){
-            swapNodeClass(document.getElementById(`${id}`), NodeValue.UNVISITED, NodeValue.WALL);
-            nodes[i][j].value = NodeValue.WALL;
-            id++;
+    // if(document.querySelector("#showMazeAnimation").checked){
+        id = 0;
+        for(let i = 0 ; i < rowCount ; i++){
+            for(let j = 0; j < colCount ; j++){
+                swapNodeClass(document.getElementById(`${id}`), NodeValue.UNVISITED, NodeValue.WALL);
+                nodes[i][j].value = NodeValue.WALL;
+                id++;
+            }
         }
-    }
-    // let toVisit = [];
-    // let visited = [];
-    // let visiting;
-    toVisit.push(0);
-    
-    // activePlayId = setInterval(caveIn, 20, adjacencyList, colCount);
-    caveIn(adjacencyList, colCount);
+        toVisit.push(0);
+        caveIn(adjacencyList, colCount);
+    // }
+    // else{
+
+    // }
+
     // while(toVisit.length > 0){
     //     visiting = toVisit.pop();
     //     visited.push(visiting);
@@ -190,7 +192,7 @@ function drawMaze(mazeContainer, nodes){
 //function to draw each node
 function drawNode(node){
     let newElement = document.createElement('span');
-    newElement.className = `node ${node.value} popup`;
+    newElement.className = `node ${node.value}`;
     
     newElement.setAttribute('onclick', `changeNode(this,${node.row}, ${node.col})`);
     newElement.setAttribute('onmouseover', `changeNodeOnHover(this,${node.row}, ${node.col})`);
@@ -344,67 +346,94 @@ function changeNodeOnHover(node, row, col){
 }
 
 function play(){
-    
-    graph = new Graph(nodes);
-    // console.log(graph);
-    // console.table(graph.edges);
-    // algorithm = new Dijkstra(nodes, graph, startNode, endNode);
-    switch (parseInt(document.querySelector('#algorithmMenu').value)) {
-        case Algorithm.DIJKSTRA:
-            algorithm = new Dijkstra(nodes, graph, startNode, endNode);
-            break;
-        case Algorithm.DFS:
-            algorithm = new DFS(nodes, graph, startNode, endNode);
-            break;
-        case Algorithm.ASTAR:
-            algorithm = new AStar(nodes, graph, startNode, endNode);
-            break;
-        
+    document.querySelector("#play-btn").style.display = "none";
+    document.querySelector("#pause-btn").style.display = "inline-block";
+
+    if(graph === null){
+        graph = new Graph(nodes);
+        // console.log(graph);
+        // console.table(graph.edges);
+        // algorithm = new Dijkstra(nodes, graph, startNode, endNode);
+        switch (parseInt(document.querySelector('#algorithmMenu').value)) {
+            case Algorithm.DIJKSTRA:
+                algorithm = new Dijkstra(nodes, graph, startNode, endNode);
+                break;
+            case Algorithm.DFS:
+                algorithm = new DFS(nodes, graph, startNode, endNode);
+                break;
+            case Algorithm.ASTAR:
+                algorithm = new AStar(nodes, graph, startNode, endNode);
+                break;
+            
+        }
+        algorithm.initiate();
     }
-    algorithm.initiate();
+
+    playing = true;
     // setTimeout(1000);
     // activePlayId = setInterval(next,playSpeed);
-    next();
+    // if(!endFound){
+        loop();
+    // }
+    // else{
+    //     displayPath();
+    // }
     // console.log(activePlayId)
     
 }
 
-// function play(){
-//     activePlayId = algorithm.play();
-
-// }
-function next(){
+function loop(){
     if(!endFound){
         algorithm.next();
-        latestTimeoutForVisiting = setTimeout(next, playSpeed);
+        if(playing) setTimeout(loop, playSpeed);
+    }else{
+        displayPath();
     }
+    
 }
+
+function next(){
+    // if(!playing) return;
+
+    if(!endFound){
+        algorithm.next();
+    }else{
+        displayPath();
+    }
+    
+}
+
+
 
 
 function pause(){
-    clearInterval(activePlayId);
-}
-
-function loop(){
-    // console.log('looping');
-    drawMaze(maze, nodes);
+    // clearInterval(activePlayId);
+    document.querySelector("#pause-btn").style.display = "none";
+    document.querySelector("#play-btn").style.display = "inline-block";
+    playing = false;
 }
 
 function displayPath(){
     if(path.length == 0){
-        // pause();
+        pause();
         // clearTimeout(latestTimeoutForPath);
         return;
     }
     let currentPathNode = path.pop();
     swapNodeClass(document.getElementById(`${currentPathNode}`), NodeValue.VISITED, NodeValue.PATH);
     setTimeout(clearPop, 500, document.getElementById(`${currentPathNode}`));
-    setTimeout(displayPath, playSpeed);
+    if(playing){
+        setTimeout(displayPath, playSpeed);
+
+    }
+    else{
+        pause();
+    }
 
 }
 
 function resetAll(){
-    hideControls();
+    // hideControls();
     graph = null;
     nodes = [];
     if(startNode !== null){
@@ -427,31 +456,35 @@ function resetAll(){
     visited = [];
     endFound = false;
     endPathFound = false;
+    playing = false;
     maze.innerHTML = ''
 }
 
 function resetMaze(){
     
     if(startNode !== null){
-        document.getElementById(startNode).classList.remove(NodeValue.START);
+        // document.getElementById(startNode).classList.remove(NodeValue.START);
+        swapNodeClass(document.getElementById(startNode), NodeValue.START, NodeValue.UNVISITED)
         startNode = null;
         startXCoor = null;
         startYCoor = null;
     }
     if(endNode !== null){
-        document.getElementById(endNode).classList.remove(NodeValue.END);
+        // document.getElementById(endNode).classList.remove(NodeValue.END);
+        swapNodeClass(document.getElementById(endNode), NodeValue.END, NodeValue.UNVISITED)
         endNode = null;
         endXCoor = null;
         endYCoor  = null;
     }
-    document.querySelectorAll(`.${NodeValue.PATH}`).forEach( pathNode => pathNode.classList.remove(NodeValue.PATH))
-    document.querySelectorAll(`.${NodeValue.VISITED}`).forEach( pathNode => pathNode.classList.remove(NodeValue.VISITED))
+    document.querySelectorAll(`.${NodeValue.PATH}`).forEach( pathNode => {swapNodeClass(pathNode, NodeValue.PATH, NodeValue.UNVISITED); pathNode.classList.remove('popup');})
+    document.querySelectorAll(`.${NodeValue.VISITED}`).forEach( pathNode => {swapNodeClass(pathNode, NodeValue.VISITED, NodeValue.UNVISITED); pathNode.classList.remove('popup');})
     if(activePlayId !== null){
         clearInterval(activePlayId);
         activePlayId = null;
     }
     endFound = false;
     endPathFound = false;
+    playing = false;
     // recursive = null;
     path = [];
 

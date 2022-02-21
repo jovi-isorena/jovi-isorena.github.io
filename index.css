@@ -7,30 +7,36 @@
     width: 90vw;
     margin: 0 auto;
 }
-
+.mazeContainer{
+    overflow: auto;
+}
 .maze{
-    border: 1px solid gray;
+    border: 15px solid transparent;
+    border-image: url("wall-sprite2.png") 15px round;
+    /* border-image-source: url("wall-sprite2.png"); */
+    /* border-image-width: 15px ; */
+    /* border-image-repeat: fill; */
+    /* border-image-slice: fill; */
     width:fit-content;
     height: auto;
-    margin: auto;
+    margin: 10px auto;
     margin-bottom: 50px;
-    /* display: block; */
-    /* flex-flow: row; */
-    /* display: -ms-inline-grid;
-    display: -moz-inline-grid; */
     line-height: 0;
     user-select: none;
     justify-items: center;
-    /* margin: 20px 0; */
     transition-duration: 100ms;
+    background-color: rgba(40,32,56,1);
 }
 
 .node{
-    border: 1px solid white;
+    /*border: 1px solid white;*/
+    border: 0;
+    margin: 0;
     width: 15px;
     height: 15px;
     display: inline-block;
     padding: 0;
+    
 }
 @keyframes popup {
     from {
@@ -45,12 +51,18 @@
   }
 
 .wall{
-    border: 1px solid black;
-    background-color: black;
+    /*border: 1px solid black;
+    background-color: black;*/
+    border: 0;
+    background-image: url("wall-sprite2.png");
+    background-size: contain;
 }
 .visited{
     border: 1px solid lightseagreen;
     background-color: lightseagreen;
+    /* background-image: url("corridor-sprite-visited.png");
+    background-size: contain; */
+
 }
 .path{
     border: 1px solid yellow;
@@ -66,8 +78,10 @@
     background-color: red;
 }
 .unvisited{
-    border: 1px solid white;
-    background-color: white;
+    /*border: 1px solid white;
+    background-color: white;*/
+    background-image: url("corridor-sprite-white.png");
+    background-size: contain;
 }
 .popup{
     animation-name: popup;
@@ -76,47 +90,101 @@
 
 .control-button{
     padding: 5px;
-    width: 70px;
+    width: 50px;
+    height: 50px;
     border: 2px solid white;
+    border-radius: 50%;
     background-color: blue;
     color: white;
-    border-radius: 5px;
 }
 
 .playSpeed{
     color: red;
 
 }
+.editor-button{
+    padding: 5px;
+    width: 100%;
+    border: 2px solid white;
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+}
+.editor-button-group{
+    position: sticky;
+    top:0;
+}
 
+.mazeEditor{
+    background-color: lightblue;
+    color: #646464;
+    padding: 20px 20px;
+    margin-bottom: 10px;
+    /* display: flex; */
+    /* border: 1px solid black; */
+    font-size: .85rem;
+    border-radius: 10px;
+}
+
+.mazeEditor input[type='text']{
+    width: 30px;
+    background-color: transparent;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+}
 .mazeControl{
     transition: all 500ms;
     display: flex; 
-    /* width: 50%;  */
+    font-size: .85rem;
     justify-content: space-between;
-    /* height: 0; */
     overflow: hidden;
-    /* border: 1px solid blue; */
     text-align: center;
-    background-color: lightseagreen;
-    color: white;
+    background-color: lightblue;
+    color: black;
     padding: 20px 20px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     margin-bottom: 10px;
+    position: sticky;
+    bottom: 0;
 }
 
 .mazeControl select{
-    background-color: lightseagreen;
-    color: white;
+    background-color: lightblue;
     border: 0;
     padding: 5px 10px;
     
 }
 
 .mazeControl select option{
-    background-color: lightseagreen;
+    background-color: lightblue;
     padding: 5px 10px;
+    height: 100px;
 }
 .mazeControl select option:hover{
     background-color: white;
+}
+.d-flex{
+    display: flex;
+}
+
+.d-block{
+    display: block;
+}
+
+.justify-between{
+    justify-content: space-between;
+}
+.justify-around{
+    justify-content: space-around;
+}
+.w-100{
+    width: 100%;
+}
+.status-bar{
+    width: 25%;
+    height: auto;
+    background-color: lightblue;
+    border-radius: 10px;
 }

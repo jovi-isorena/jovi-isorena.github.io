@@ -11,36 +11,59 @@
 <body>
     <div class="container">
         <h1>Path Finding</h1>
-        <div>
-            <div>
-                <label for="txtRow">Row:</label>
-                <input type="text" name="txtRow" id="txtRow" value=35>
-                <label for="txtCol">Column:</label>
-                <input type="text" name="txtCol" id="txtCol" value=81>
-                
-                <br>
+        <div class="d-flex w-100">
 
-                <button onclick="generateBlankMaze()" class="generate-btn">Generate Blank Maze</button>
-                <button onclick="generateMaze()" class="generate-btn">Generate Maze</button>
-                <button onclick="resetAll()" class="generate-btn">Reset All</button>
-                <button onclick="resetMaze()" class="generate-btn">Reset Maze</button>
-            </div>
-        </div>
         
-        <div class="mazeControl">
-            <div>
-                <input type="radio" name="nodeType" id="radNone" checked>
-                <label for="radNone">CLEAR</label>
-            
-                <input type="radio" name="nodeType" id="radStart">
-                <label for="radStart">START</label>
-            
-                <input type="radio" name="nodeType" id="radEnd">
-                <label for="radEnd">END</label>
-            
-                <input type="radio" name="nodeType" id="radWall">
-                <label for="radWall">WALL</label>
+            <div class="mazeEditor">
+                <h2><i class="fas fa-pencil-ruler"></i>Maze Editor</h2>
+                <div class="d-flex justify-around">
+                    <div class="">
+                        <div>
+                            <label for="txtRow">Rows:</label>
+                            <input type="text" name="txtRow" id="txtRow" value=35>
+                            <label for="txtCol">Cols:</label>
+                            <input type="text" name="txtCol" id="txtCol" value=79>
+                        </div>
+                        <div>
+                            <button onclick="generateBlankMaze()" class="editor-button">Resize Map</button>
+
+                        </div>
+                    </div>
+                    <div>
+                        <button onclick="generateMaze()" class="editor-button">Generate Maze</button>
+                        <input type="checkbox" name="showMazeAnimation" id="showMazeAnimation" checked>
+                        <label for="showMazeAnimation">Show Animation</label>
+                    </div>
+                    <div>
+                        <button onclick="generateBlankMaze()" class="editor-button">Clear Maze</button>
+                        <button onclick="resetMaze()" class="editor-button">Reset Maze</button>
+                    </div>
+                    
+                </div>
+                <div class="d-block editor-button-group">
+                    <input type="radio" name="nodeType" id="radNone" checked>
+                    <label for="radNone">CLEAR</label>
+                
+                    <input type="radio" name="nodeType" id="radStart">
+                    <label for="radStart">START</label>
+                
+                    <input type="radio" name="nodeType" id="radEnd">
+                    <label for="radEnd">END</label>
+                
+                    <input type="radio" name="nodeType" id="radWall">
+                    <label for="radWall">WALL</label>
+                </div>
             </div>
+            
+        </div>
+        <div class="mazeContainer">
+            <div class="maze">
+                
+            </div>
+
+        </div>
+        <div class="mazeControl">
+            
             <div>
                 <label for="algoritmMenu">Path Finding Algorithm:</label>
                 <select name="algorithmMenu" id="algorithmMenu">
@@ -50,17 +73,16 @@
                 </select>
             </div>
             <div class="controls">
-                <button class="control-button" onclick="play()"><i class="fas fa-play"></i></button>
-                <button class="control-button" onclick="pause()"><i class="fas fa-pause"></i></button>
-                <button class="control-button" onclick="next()"><i class="fas fa-step-forward"></i></button>
+                <button class="control-button" onclick="play()" id="play-btn" style="display: inline-block;"><i class="fas fa-play"></i></button>
+                <button class="control-button" onclick="pause()" id="pause-btn" style="display: none;"><i class="fas fa-pause"></i></button>
+                <button class="control-button" onclick="next()" id="next-btn"><i class="fas fa-step-forward"></i></button>
                 <label for="playSpeed"><i class="fas fa-stopwatch"></i></label>
-                <input type="range" name="playSpeed" id="playSpeed" min="1" max="100" value="100" class="playSpeed">
+                <!-- <i class="fas fa-stopwatch"></i> -->
+                <input type="range" name="playSpeed" id="playSpeed" min="1" max="100" value="50" class="playSpeed">
             </div>
             
         </div>
-        <div class="maze">
-            
-        </div>
+        
     </div>
     <script src="js/maze.js"></script>
     <script src="js/graph.js"></script>
